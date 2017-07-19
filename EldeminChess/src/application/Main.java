@@ -11,7 +11,11 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			Scene scene = new Scene(new TestView().getRegion());
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			/*try (Scanner s = new Scanner(getClass().getResourceAsStream("/application.css"))) {
+				s.useDelimiter("\\A");
+				String result = s.next();
+			}*/
+			scene.getStylesheets().add("/application.css");				
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {

@@ -40,13 +40,17 @@ public class MoveImpl implements Move {
 		targetPiece = state.getPiece(to);
 		turn = state.getTurn();
 
+		int transformTo = ruleSet.getPieceRule(piece.getId()).getTransformTo();
+		
 		Piece resultingFromPiece = null;
-		Piece resultingToPiece = promoteTo == -1 ? piece : new Piece(promoteTo, turn);
+		Piece resultingToPiece = promoteTo != -1 ? new Piece(promoteTo, turn)
+				: transformTo != -1 ? new Piece(transformTo, turn)
+				: piece;
 		if (swap) {
 			int[] promotionList = ruleSet.getPieceRule(targetPiece.getId()).getPromotionList();
-			int opponentTeam = 1 - turn;
-			if (promotionList != null && state.isPromotingSquare(from, opponentTeam)) {
-				resultingFromPiece = new Piece(promotionList[0], opponentTeam);
+			int targetTeam = targetPiece.getTeam();
+			if (promotionList != null && state.isPromotingSquare(from, targetTeam)) {
+				resultingFromPiece = new Piece(promotionList[0], targetTeam);
 			} else {
 				resultingFromPiece = targetPiece;
 			}
@@ -140,6 +144,34 @@ public class MoveImpl implements Move {
 		} else if (!to.equals(other.to))
 			return false;
 		return true;
+	}
+
+	@Override
+	public Vec2i getFrom() {
+		return from;
+	}
+
+	@Override
+	public Vec2i getTo() {
+		return to;
+	}
+
+	@Override
+	public String getActionName(RuleSet ruleSet) {
+		String name = "";
+		if (swap) {
+			name += "swap";
+		} else if (targetPiece != null) {
+			name += "capture";
+		} else {
+			name += "move";
+		}
+		
+		if (promoteTo != -1) {
+			name += ", " + ruleSet.getPieceRule(promoteTo).getName() + "!";
+		}
+		
+		return name;
 	}
 
 }

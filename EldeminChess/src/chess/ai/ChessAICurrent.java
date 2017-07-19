@@ -17,7 +17,7 @@ import util.MurmurHash3.LongPair;
 
 public class ChessAICurrent implements ChessAI {
 	
-	private double[] values = { 999999, 100, 325, 350, 500, 900, 525, 400 };
+	private double[] values = { 999999, 100, 100, 325, 350, 500, 900, 525, 400, 400 };
 	
 	private Thread thread;
 	private RuleSet ruleSet;
@@ -36,7 +36,6 @@ public class ChessAICurrent implements ChessAI {
 	
 	private ChessTranspositionTable transpositionTable = new ChessTranspositionTable();
 	
-	private int minDepthForTranspositionTable = 1;
 	private double quiesceDepth = 8;
 	
 	

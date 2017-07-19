@@ -16,5 +16,7 @@ public interface PieceRule {
 	public int[] getPromotionList();
 	
 	public int[] getDeathTriggers();
+	public String getName();
+	public int getTransformTo();
 	
 }

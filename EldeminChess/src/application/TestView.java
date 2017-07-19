@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
 import com.google.gson.Gson;
 
+import chess.ai.AiTools;
 import chess.ai.ChessAI;
 import chess.ai.ChessAICurrent;
 import chess.ai.SearchNode;
@@ -16,7 +18,6 @@ import chess.instance.board.Game;
 import chess.instance.board.GameState;
 import chess.instance.piece.Piece;
 import chess.rule.piece.move.Move;
-import chess.rule.piece.move.MoveImpl;
 import chess.rule.set.RuleSet;
 import chess.rule.set.RuleSetData;
 import chess.rule.set.RuleSetImpl;
@@ -40,6 +41,7 @@ public class TestView {
 
 	private Game game;
 	private BoardView boardView = new BoardView();
+	private MoveListView moveListView = new MoveListView();
 
 	private Button btnReset = new Button("Reset");
 	private Button btnUndo = new Button("Undo");
@@ -50,16 +52,17 @@ public class TestView {
 	private Button btnTestJson = new Button("Get Test Json");
 	private HBox btnBox = new HBox(btnReset, btnUndo, btnRedo, btnStartAi, btnStopAi, btnMoveAi, btnTestJson);
 	
-	private Slider aiTimeSlider = new Slider(1, 50, 5);
+	private Slider aiTimeSlider = new Slider(1, 50, 1);
 	private Label aiTimeLabel = new Label();
-	private CheckBox aiAutoPlay = new CheckBox("Auto play");
 	private CheckBox aiPlay = new CheckBox("Computer Player");
+	private CheckBox aiAutoPlay = new CheckBox("Auto play");
 	private ProgressBar aiProgress = new ProgressBar();
-	private HBox aiBox = new HBox(aiTimeSlider, aiTimeLabel, aiAutoPlay, aiPlay, aiProgress);
+	private HBox aiBox = new HBox(aiTimeSlider, aiTimeLabel, aiPlay, aiAutoPlay, aiProgress);
 	
 	private Label labelAI = new Label("AI sleeping");
 	
-	private VBox root = new VBox(boardView.getRegion(), btnBox, aiBox, labelAI);
+	private HBox boardBox = new HBox(boardView.getRegion(), moveListView.getRegion());
+	private VBox root = new VBox(boardBox, btnBox, aiBox, labelAI);
 	
 	private List<Move> moveHistory = new ArrayList<>();
 	private int moveNo = -1;
@@ -75,11 +78,38 @@ public class TestView {
 		boardView.showBoard(game);
 		
 		boardView.setOnMoveTargetted(pos -> {
-			doMove(new MoveImpl(pos[0], pos[1], false, -1));
-			if (aiPlay.isSelected()) {
+			List<Move> moves = new ArrayList<>();
+			List<Move> legalMoves = AiTools.getAllLegalMoves(ruleSet, game.getGameState());
+			for (Iterator<Move> it = legalMoves.iterator(); it.hasNext();) {
+				Move move = it.next();
+				if (move.getFrom().equals(pos[0]) && move.getTo().equals(pos[1])) {
+					moves.add(move);
+				}
+			}
+			
+			boolean movePlayed = false;
+			if (moves.size() == 0) {
+				// play sound for illegal move
+			} else if (moves.size() == 1) {
+				doMove(moves.get(0));
+				movePlayed = true;
+			} else {
+				moveListView.setMoves(moves, ruleSet);
+			}
+			
+			if (movePlayed && aiPlay.isSelected()) {
 				startAI();
 			}
 			return null;
+		});
+
+		moveListView.clearMoves();
+		moveListView.setOnMoveSelected(move -> {
+			doMove(move);
+			moveListView.clearMoves();
+			if (aiPlay.isSelected()) {
+				startAI();
+			}
 		});
 		
 		Runnable onEvaluationFinished = () -> Platform.runLater(() -> {
@@ -141,7 +171,7 @@ public class TestView {
 		aiTimeSlider.valueProperty().addListener(e -> {
 			aiTimeLabel.setText(getAiTime() + " ms");
 		});
-		aiTimeSlider.setValue(15);
+		aiTimeSlider.setValue(5);
 		aiTimeSlider.setMinorTickCount(1);
 		aiTimeSlider.setMajorTickUnit(100);
 		aiProgress.setVisible(false);

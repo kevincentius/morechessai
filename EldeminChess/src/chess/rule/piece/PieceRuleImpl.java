@@ -388,5 +388,15 @@ public class PieceRuleImpl implements PieceRule {
 	public int[] getDeathTriggers() {
 		return pieceRuleData.deathTriggers;
 	}
+
+	@Override
+	public String getName() {
+		return pieceRuleData.name;
+	}
+
+	@Override
+	public int getTransformTo() {
+		return pieceRuleData.transformTo;
+	}
 	
 }
