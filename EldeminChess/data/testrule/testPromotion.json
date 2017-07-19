@@ -1,0 +1,189 @@
+{
+	"startingPosition": [
+		[-1,-1,-1,-1,-1,-1,-1,-1 ],
+		[ 1,-1,-1,-1,-1,-1,-1,-1 ],
+		[-1,-1,-1,-1,-1,-1,-1,-1 ],
+		[-1,-1,-1,-1,-1,-1,-1,-1 ],
+		[-1,-1,-1,-1,-1,-1,-1,-1 ],
+		[-1,-1,-1,-1,-1,-1,-1,-1 ],
+		[-1,-1,-1,-1,-1,-1,-1, 1 ],
+		[-1,-1,-1,-1,-1,-1,-1,-1 ]
+	],
+	
+	"startingTeam": [
+		[-1,-1,-1,-1,-1,-1,-1,-1 ],
+		[ 0,-1,-1,-1,-1,-1,-1,-1 ],
+		[-1,-1,-1,-1,-1,-1,-1,-1 ],
+		[-1,-1,-1,-1,-1,-1,-1,-1 ],
+		[-1,-1,-1,-1,-1,-1,-1,-1 ],
+		[-1,-1,-1,-1,-1,-1,-1,-1 ],
+		[-1,-1,-1,-1,-1,-1,-1, 1 ],
+		[-1,-1,-1,-1,-1,-1,-1,-1 ]
+	],
+	
+	"pieceData": [
+		{
+			"image": "king",
+			
+			"jumpMove": [
+				[ true	, true	, true ],
+				[ true	, false	, true ],
+				[ true	, true	, true ]
+			],
+			
+			"jumpCapture": [
+				[ true	, true	, true ],
+				[ true	, false	, true ],
+				[ true	, true	, true ]
+			],
+			
+			"deathTriggers": [ 0 ]
+		},
+		
+		{
+			"image": "pawn",
+			
+			"jumpMove": [
+				[ false	, true	, false	],
+				[ false	, false	, false	],
+				[ false	, false	, false	]
+			],
+			
+			"jumpCapture": [
+				[ true	, false	, true	],
+				[ false	, false	, false	],
+				[ false	, false	, false	]
+			],
+			
+			"promotionList": [2, 3, 4, 5]
+		},
+		
+		{
+			"image": "knight",
+			
+			"jumpMove": [
+				[ false	, true	, false	, true	, false	],
+				[ true	, false	, false	, false	, true	],
+				[ false	, false	, false	, false	, false	],
+				[ true	, false	, false	, false	, true	],
+				[ false	, true	, false	, true	, false	]
+			],
+			
+			"jumpCapture": [
+				[ false	, true	, false	, true	, false	],
+				[ true	, false	, false	, false	, true	],
+				[ false	, false	, false	, false	, false	],
+				[ true	, false	, false	, false	, true	],
+				[ false	, true	, false	, true	, false	]
+			]
+		},
+		
+		{
+			"image": "bishop",
+			
+			"slideMove": [
+				{
+					"dirs": [ [-1,-1], [1,-1], [-1,1], [1,1] ],
+					"minDist": 1,
+					"maxDist": 999
+				}
+			],
+			
+			"slideCapture": [
+				{
+					"dirs": [ [-1,-1], [1,-1], [-1,1], [1,1] ],
+					"minDist": 1,
+					"maxDist": 999
+				}
+			]
+		},
+		
+		{
+			"image": "rook",
+			
+			"slideMove": [
+				{
+					"dirs": [ [0,-1], [-1,0], [1,0], [0,1] ],
+					"minDist": 1,
+					"maxDist": 999
+				}
+			],
+			
+			"slideCapture": [
+				{
+					"dirs": [ [0,-1], [-1,0], [1,0], [0,1] ],
+					"minDist": 1,
+					"maxDist": 999
+				}
+			]
+		},
+		
+		{
+			"image": "queen",
+			
+			"slideMove": [
+				{
+					"dirs": [ [-1,-1], [1,-1], [-1,1], [1,1], [0,-1], [-1,0], [1,0], [0,1] ],
+					"minDist": 1,
+					"maxDist": 999
+				}
+			],
+			
+			"slideCapture": [
+				{
+					"dirs": [ [-1,-1], [1,-1], [-1,1], [1,1], [0,-1], [-1,0], [1,0], [0,1] ],
+					"minDist": 1,
+					"maxDist": 999
+				}
+			]
+		},
+		
+		{
+			"image": "ghost",
+			"blocking": false,
+			
+			"jumpMove": [
+				[ true	, false	, true	, false	, true	],
+				[ false	, true	, true	, true	, false	],
+				[ true	, true	, false	, true	, true	],
+				[ false	, true	, true	, true	, false	],
+				[ true	, false	, true	, false	, true	]
+			],
+			
+			"jumpCapture": [
+				[ true	, false	, true	, false	, true	],
+				[ false	, true	, true	, true	, false	],
+				[ true	, true	, false	, true	, true	],
+				[ false	, true	, true	, true	, false	],
+				[ true	, false	, true	, false	, true	]
+			]
+		},
+		
+		{
+			"image": "rogue",
+			
+			"jumpMove": [
+				[ false	, false	, false	, true	, false	, false	, false	],
+				[ false	, true	, false	, false	, false	, true	, false	],
+				[ false	, false	, false	, true	, false	, false	, false	],
+				[ true	, false	, true	, false	, true	, false	, true	],
+				[ false	, false	, false	, true	, false	, false	, false	],
+				[ false	, true	, false	, false	, false	, true	, false	],
+				[ false	, false	, false	, true	, false	, false	, false	]
+				
+			],
+			
+			"jumpCapture": [
+				[ false	, false	, false	, true	, false	, false	, false	],
+				[ false	, true	, false	, false	, false	, true	, false	],
+				[ false	, false	, false	, true	, false	, false	, false	],
+				[ true	, false	, true	, false	, true	, false	, true	],
+				[ false	, false	, false	, true	, false	, false	, false	],
+				[ false	, true	, false	, false	, false	, true	, false	],
+				[ false	, false	, false	, true	, false	, false	, false	]
+				
+			]
+			
+		}
+	]
+}
